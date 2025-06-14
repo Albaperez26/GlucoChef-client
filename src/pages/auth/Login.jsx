@@ -1,9 +1,16 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/auth.context";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const { authenticateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState(null);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -11,6 +18,34 @@ function Login() {
     e.preventDefault();
 
     // ... contactar al backend para validar credenciales de usuario aqui
+    const userCredentials = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/login`,
+        userCredentials
+      );
+      console.log("usuario validado por el back", response);
+
+      //almacenamos el token
+      localStorage.setItem("authToken", response.data.authToken);
+
+      //crear contexto y act los estados
+      await authenticateUser();
+
+      //redireccionar al user admin a pag privada
+      navigate("/ingredientes");
+    } catch (error) {
+      console.log(error);
+
+      if (error.response.status === 400) {
+        //los errores de cliente se muestran al user
+        setErrorMessage(error.response.data.errorMessage);
+      }
+    }
   };
 
   return (
@@ -39,6 +74,7 @@ function Login() {
         <br />
 
         <button type="submit">Acceder</button>
+        {errorMessage && <p>{errorMessage}</p>}
       </form>
     </div>
   );

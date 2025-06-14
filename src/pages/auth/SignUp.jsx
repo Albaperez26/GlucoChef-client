@@ -1,9 +1,14 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 function Signup() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState(null);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -12,6 +17,27 @@ function Signup() {
     e.preventDefault();
 
     // ... contactar al backend para registrar al usuario aqui
+    try {
+      const newUser = {
+        email,
+        username,
+        password,
+      };
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/signup`,
+        newUser
+      );
+      console.log("todo bien el backend respondió", response);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 400) {
+        //los errores de cliente se muestren al user
+        console.log(error.response.data.errorMessage);
+        setErrorMessage(error.response.data.errorMessage);
+      }
+    }
   };
 
   return (
@@ -50,6 +76,8 @@ function Signup() {
         <br />
 
         <button type="submit">Registrar</button>
+
+        {errorMessage && <p>{errorMessage}</p>}
       </form>
     </div>
   );

@@ -9,6 +9,7 @@ import IngredientsPage from "./pages/IngredientsPage";
 //components
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import OnlyPrivate from "./components/OnlyPrivate";
 
 function App() {
   return (
@@ -19,7 +20,14 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/ingredientes" element={<IngredientsPage />} />
+        <Route
+          path="/ingredientes"
+          element={
+            <OnlyPrivate>
+              <IngredientsPage />
+            </OnlyPrivate>
+          }
+        />
 
         {/*Rutas de error aqui */}
       </Routes>
