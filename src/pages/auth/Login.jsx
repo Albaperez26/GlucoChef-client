@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../../services/service.config";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +24,7 @@ function Login() {
     };
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/auth/login`,
-        userCredentials
-      );
+      const response = await service.post(`/auth/login`, userCredentials);
       console.log("usuario validado por el back", response);
 
       //almacenamos el token
@@ -37,7 +34,7 @@ function Login() {
       await authenticateUser();
 
       //redireccionar al user admin a pag privada
-      navigate("/ingredientes");
+      navigate("/ingredients");
     } catch (error) {
       console.log(error);
 

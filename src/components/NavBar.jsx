@@ -23,7 +23,7 @@ function NavBar() {
       <Link to="/">Home</Link>
       {isLoggedIn === true ? (
         <>
-          <Link to="/ingredientes">Ingredientes</Link>
+          <Link to="/ingredients">Ingredientes</Link>
           <Link onClick={handleLogout}>Cerrar sesión</Link>
         </>
       ) : (
