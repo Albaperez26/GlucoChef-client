@@ -3,13 +3,15 @@ import { Routes, Route } from "react-router";
 
 //pages
 import HomePage from "./pages/HomePage";
-import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import IngredientsPage from "./pages/IngredientsPage";
 //components
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import OnlyPrivate from "./components/OnlyPrivate";
+import AdminPage from "./pages/AdminPage";
+import Signup from "./pages/auth/SignUp";
+import OnlyAdmin from "./components/OnlyAdmin";
 
 function App() {
   return (
@@ -28,7 +30,14 @@ function App() {
             </OnlyPrivate>
           }
         />
-
+        <Route
+          path="/admin"
+          element={
+            <OnlyAdmin>
+              <AdminPage />
+            </OnlyAdmin>
+          }
+        />
         {/*Rutas de error aqui */}
       </Routes>
 
