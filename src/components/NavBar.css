@@ -1,0 +1,11 @@
+.nav-elements {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    
+}
+.nav-button {
+    color: black;
+    text-decoration: none;
+}

@@ -12,6 +12,7 @@ import OnlyPrivate from "./components/OnlyPrivate";
 import AdminPage from "./pages/AdminPage";
 import Signup from "./pages/auth/SignUp";
 import OnlyAdmin from "./components/OnlyAdmin";
+import RecipesPage from "./pages/RecipesPage";
 
 function App() {
   return (
@@ -27,6 +28,14 @@ function App() {
           element={
             <OnlyPrivate>
               <IngredientsPage />
+            </OnlyPrivate>
+          }
+        />
+        <Route
+          path="/recipes"
+          element={
+            <OnlyPrivate>
+              <RecipesPage />
             </OnlyPrivate>
           }
         />

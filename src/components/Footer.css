@@ -1,0 +1,10 @@
+.footer {
+    border-top: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 15px;
+    bottom: 0px;
+    background-color: #d7d7d7;
+}
