@@ -13,6 +13,8 @@ import AdminPage from "./pages/AdminPage";
 import Signup from "./pages/auth/SignUp";
 import OnlyAdmin from "./components/OnlyAdmin";
 import RecipesPage from "./pages/RecipesPage";
+import Myrecipes from "./pages/Myrecipes";
+import EditRecipes from "./pages/EditRecipes";
 
 function App() {
   return (
@@ -36,6 +38,22 @@ function App() {
           element={
             <OnlyPrivate>
               <RecipesPage />
+            </OnlyPrivate>
+          }
+        />
+        <Route
+          path="/recipes/myrecipes"
+          element={
+            <OnlyPrivate>
+              <Myrecipes />
+            </OnlyPrivate>
+          }
+        />
+        <Route
+          path="/recipes/myrecipes/:recipesId"
+          element={
+            <OnlyPrivate>
+              <EditRecipes />
             </OnlyPrivate>
           }
         />
