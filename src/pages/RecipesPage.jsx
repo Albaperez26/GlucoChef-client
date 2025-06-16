@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import service from "../services/service.config";
+import { Link } from "react-router-dom";
 
 //aqui se ven TODAS las recetas
 function RecipesPage() {
@@ -19,6 +20,9 @@ function RecipesPage() {
   return (
     <div>
       <h2>Esta es la página de TODAS las recetas</h2>
+      <Link to="/recipes">
+        <button>Crear nueva receta</button>
+      </Link>
       {recipes.map((recipe) => (
         <div key={recipe._id}>
           <h3>{recipe.titulo}</h3>

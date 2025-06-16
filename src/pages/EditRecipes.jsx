@@ -18,7 +18,7 @@ function EditRecipes() {
   });
 
   useEffect(() => {
-    const editRecipe = async () => {
+    const getRecipe = async () => {
       try {
         const response = await service.get(`/recipes/myrecipes/${recipesId}`);
         setEditForm(response.data);
@@ -27,7 +27,7 @@ function EditRecipes() {
         console.log("Error cargando la receta");
       }
     };
-    editRecipe();
+    getRecipe();
   }, [recipesId]);
 
   const handleChange = (e) => {
@@ -38,10 +38,21 @@ function EditRecipes() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await service.put(`/recipes/${recipesId}`, editFrom);
+      await service.put(`/recipes/myrecipes/${recipesId}`, editFrom);
       navigate("/recipes/myrecipes");
     } catch (error) {
       console.log("Error al actualizar receta", error);
+    }
+  };
+
+  //funcion de borrar receta
+  const deleteRecipe = async () => {
+    try {
+      await service.delete(`recipes/myrecipes/${recipesId}`);
+      navigate("/recipes/myrecipes");
+    } catch (error) {
+      console.log("Error al eliminar la receta", error);
+      //poner un navigate a una pagina de error(?)
     }
   };
 
@@ -98,6 +109,7 @@ function EditRecipes() {
           placeholder="Ingredientes"
         />
         <button type="submit">Guardar cambios</button>
+        <button onClick={deleteRecipe}>Eliminar receta</button>
       </form>
     </div>
   );
