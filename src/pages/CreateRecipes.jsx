@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import service from "../services/service.config";
 
 function CreateRecipes() {
   const navigate = useNavigate();
+  const [ingredients, setIngredients] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const [createForm, setCreateForm] = useState({
     titulo: "",
@@ -24,13 +26,39 @@ function CreateRecipes() {
     e.preventDefault(); //para que el formulario no recargue toda la pagina
 
     try {
-      await service.post("/recipes/create", createForm);
+      const updatedForm = {
+        ...createForm,
+        ingredientes: selectedIngredients,
+      };
+      await service.post("/recipes/create", updatedForm);
 
       navigate("/recipes");
     } catch (error) {
       console.log("Error al crear la receta", error);
       //añadir navigate con pagina de error
     }
+  };
+
+  useEffect(() => {
+    getIngredients();
+  }, []);
+
+  const getIngredients = async () => {
+    try {
+      const response = await service.get(`/ingredients`);
+      console.log(response);
+      setIngredients(response.data);
+    } catch (error) {
+      console.log("Error al acceder a los ingredientes", error);
+    }
+  };
+
+  const toggleIngredient = (ingredientId) => {
+    setSelectedIngredients((prev) =>
+      prev.includes(ingredientId)
+        ? prev.filter((id) => id !== ingredientId)
+        : [...prev, ingredientId]
+    );
   };
 
   return (
@@ -81,6 +109,47 @@ function CreateRecipes() {
           value={createForm.elaboracion}
           onChange={handleChange}
         />
+        <h2>Ingredientes disponibles</h2>
+        <ul
+          style={{ maxHeight: "200px", maxWidth: "600px", overflowY: "auto" }}
+        >
+          {ingredients.map((ingredient) => (
+            <li key={ingredient._id}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedIngredients.includes(ingredient._id)}
+                  onChange={() => toggleIngredient(ingredient._id)}
+                />
+                {ingredient.nombre}
+              </label>
+            </li>
+          ))}
+        </ul>
+
+        {/* Tabla de seleccionados */}
+        <div>
+          <h2>Ingredientes de la receta</h2>
+          {selectedIngredients.length === 0 ? (
+            <p>Selecciona ingredientes de la lista.</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Ingrediente</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedIngredients.map((ingredientId) => (
+                  <tr key={ingredientId}>
+                    <td>{ingredientId}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
         {/* <input
           type="text"
           name="ingredientes"

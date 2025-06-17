@@ -7,16 +7,18 @@ function RecipesPage() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    const getRecipes = async () => {
-      try {
-        const response = await service.get("/recipes");
-        setRecipes(response.data);
-      } catch (error) {
-        console.log("Error en la pagina de todas las recetas", error);
-      }
-    };
+    //useEffect hace que se ejecute getrecipes nada mas abrir la pag
     getRecipes();
   }, []);
+
+  const getRecipes = async () => {
+    try {
+      const response = await service.get("/recipes");
+      setRecipes(response.data);
+    } catch (error) {
+      console.log("Error en la pagina de todas las recetas", error);
+    }
+  };
   return (
     <div>
       <h2>Esta es la página de TODAS las recetas</h2>
