@@ -20,6 +20,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import OnlyPrivate from "./components/OnlyPrivate";
 import OnlyAdmin from "./components/OnlyAdmin";
+import OtherRecipesDetails from "./pages/OtherRecipesDetails";
 
 function App() {
   return (
@@ -87,6 +88,14 @@ function App() {
           }
         />
         <Route
+          path="/recipes/:recipesId"
+          element={
+            <OnlyPrivate>
+              <OtherRecipesDetails />
+            </OnlyPrivate>
+          }
+        />
+        <Route
           path="/recipes/myrecipes/:recipesId/edit"
           element={
             <OnlyPrivate>
@@ -95,7 +104,7 @@ function App() {
           }
         />
         <Route
-          path="/user/:userId"
+          path="/user"
           element={
             <OnlyPrivate>
               <UserPage />
@@ -103,7 +112,7 @@ function App() {
           }
         />
         <Route
-          path="/user/:userId/edit"
+          path="/user/edit"
           element={
             <OnlyPrivate>
               <EditUser />

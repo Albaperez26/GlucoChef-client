@@ -140,9 +140,9 @@ function CreateRecipes() {
                 </tr>
               </thead>
               <tbody>
-                {selectedIngredients.map((ingredientId) => (
-                  <tr key={ingredientId}>
-                    <td>{ingredientId}</td>
+                {selectedIngredients.map((ingredient) => (
+                  <tr key={ingredients._id}>
+                    <td>{ingredient}</td>
                   </tr>
                 ))}
               </tbody>

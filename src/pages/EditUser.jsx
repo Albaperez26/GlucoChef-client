@@ -16,7 +16,7 @@ function EditUser() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await service.get(`/user/${userId}`);
+        const response = await service.get(`/user`);
         setEditForm({
           username: response.data.username || "",
           photoURL: response.data.photoURL || "",
@@ -42,11 +42,11 @@ function EditUser() {
     e.preventDefault();
 
     try {
-      const response = await service.patch(`/user/${userId}/edit`, editForm);
+      const response = await service.patch(`/user/edit`, editForm);
       console.log("usuario actualizado", response.data);
 
       if (response.status === 200) {
-        navigate(`/user/${userId}`);
+        navigate(`/user`);
       }
     } catch (error) {
       console.log("Error al editar el usuario", error);

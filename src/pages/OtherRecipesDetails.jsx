@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import service from "../services/service.config";
-import { Link } from "react-router-dom";
 
-function RecipeDetails() {
+function OtherRecipesDetails() {
   const { recipesId } = useParams();
 
   const [recipe, setRecipe] = useState(null);
@@ -14,7 +13,7 @@ function RecipeDetails() {
 
   const getRecipe = async () => {
     try {
-      const response = await service.get(`/recipes/myrecipes/${recipesId}`);
+      const response = await service.get(`/recipes/${recipesId}`);
       setRecipe(response.data);
     } catch (error) {
       console.error("Error encontrando recipe details:", error);
@@ -57,11 +56,8 @@ function RecipeDetails() {
 
       <h3>Elaboración:</h3>
       <p>{recipe.elaboracion}</p>
-      <Link to={`/recipes/myrecipes/${recipe._id}/edit`}>
-        <button>Editar receta</button>
-      </Link>
     </div>
   );
 }
 
-export default RecipeDetails;
+export default OtherRecipesDetails;

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
 import "./NavBar.css";
@@ -9,7 +9,7 @@ function NavBar() {
   const { authenticateUser } = useContext(AuthContext);
   const { role } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const { userId } = useParams();
   const handleLogout = async () => {
     localStorage.removeItem("authToken");
 
@@ -25,6 +25,9 @@ function NavBar() {
     <nav className="nav-elements">
       <Link to="/" className="nav-button">
         Home
+      </Link>
+      <Link to={`/user`} className="nav-button">
+        Perfil
       </Link>
       {role === "admin" ? (
         <>

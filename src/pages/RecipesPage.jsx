@@ -15,6 +15,7 @@ function RecipesPage() {
   const getRecipes = async () => {
     try {
       const response = await service.get(`/recipes?q=${recipeName}`);
+      console.log(response.data);
       setRecipes(response.data);
     } catch (error) {
       console.log("Error en la pagina de todas las recetas", error);
@@ -40,11 +41,21 @@ function RecipesPage() {
         />
       </div>
       {recipes.map((recipe) => (
-        <div key={recipe._id}>
-          <h3>{recipe.titulo}</h3>
-          <img src={recipe.photoURL} alt="img de la receta" />
-          <p>{recipe.elaboracion}</p>
-        </div>
+        <Link to={`/recipes/${recipe._id}`} key={recipe._id}>
+          <div>
+            <h3>{recipe.titulo}</h3>
+            <img
+              src={recipe.photoURL}
+              alt="img de la receta"
+              style={{
+                maxWidth: "300px",
+                maxHeight: "200px",
+                objectFit: "contain",
+              }}
+            />
+            <p>{recipe.elaboracion}</p>
+          </div>
+        </Link>
       ))}
     </div>
   );
