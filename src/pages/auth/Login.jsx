@@ -34,7 +34,7 @@ function Login() {
       await authenticateUser();
 
       //redireccionar al user admin a pag privada
-      navigate("/ingredients");
+      navigate("/");
     } catch (error) {
       console.log(error);
 

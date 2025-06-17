@@ -14,6 +14,7 @@ import Signup from "./pages/auth/SignUp";
 import EditUser from "./pages/EditUser";
 import EditIngredient from "./pages/EditIngredient";
 import CreateIngredients from "./pages/CreateIngredient";
+import RecipeDetails from "./pages/RecipesDetails";
 //components
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -79,6 +80,14 @@ function App() {
         />
         <Route
           path="/recipes/myrecipes/:recipesId"
+          element={
+            <OnlyPrivate>
+              <RecipeDetails />
+            </OnlyPrivate>
+          }
+        />
+        <Route
+          path="/recipes/myrecipes/:recipesId/edit"
           element={
             <OnlyPrivate>
               <EditRecipes />

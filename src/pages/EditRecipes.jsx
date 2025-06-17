@@ -38,7 +38,7 @@ function EditRecipes() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await service.put(`/recipes/myrecipes/${recipesId}`, editFrom);
+      await service.put(`/recipes/myrecipes/${recipesId}/edit`, editFrom);
       navigate("/recipes/myrecipes");
     } catch (error) {
       console.log("Error al actualizar receta", error);
