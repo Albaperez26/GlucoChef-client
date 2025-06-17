@@ -10,14 +10,15 @@ import Myrecipes from "./pages/Myrecipes";
 import EditRecipes from "./pages/EditRecipes";
 import CreateRecipes from "./pages/CreateRecipes";
 import UserPage from "./pages/Userpage";
-import AdminPage from "./pages/AdminPage";
 import Signup from "./pages/auth/SignUp";
+import EditUser from "./pages/EditUser";
+import EditIngredient from "./pages/EditIngredient";
+import CreateIngredients from "./pages/CreateIngredient";
 //components
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import OnlyPrivate from "./components/OnlyPrivate";
 import OnlyAdmin from "./components/OnlyAdmin";
-import EditUser from "./pages/EditUser";
 
 function App() {
   return (
@@ -31,9 +32,25 @@ function App() {
         <Route
           path="/ingredients"
           element={
-            <OnlyPrivate>
+            <OnlyAdmin>
               <IngredientsPage />
-            </OnlyPrivate>
+            </OnlyAdmin>
+          }
+        />
+        <Route
+          path="/ingredients/:ingredientsId"
+          element={
+            <OnlyAdmin>
+              <EditIngredient />
+            </OnlyAdmin>
+          }
+        />
+        <Route
+          path="/ingredients/create"
+          element={
+            <OnlyAdmin>
+              <CreateIngredients />
+            </OnlyAdmin>
           }
         />
         <Route
@@ -84,14 +101,7 @@ function App() {
             </OnlyPrivate>
           }
         />
-        <Route
-          path="/admin"
-          element={
-            <OnlyAdmin>
-              <AdminPage />
-            </OnlyAdmin>
-          }
-        />
+
         {/*Rutas de error aqui */}
       </Routes>
 
