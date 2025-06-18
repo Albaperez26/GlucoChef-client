@@ -7,6 +7,9 @@ function CreateRecipes() {
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false); // for a loading animation effect
+
   const [createForm, setCreateForm] = useState({
     titulo: "",
     totalHC: "",
@@ -16,6 +19,32 @@ function CreateRecipes() {
     elaboracion: "",
     ingredientes: [],
   });
+
+  //start cloudinary
+  const handleFileUpload = async (event) => {
+    if (!event.target.files[0]) {
+      // to prevent accidentally clicking the choose file button and not selecting a file
+      return;
+    }
+    setIsUploading(true);
+
+    const uploadData = new FormData(); // images and other files need to be sent to the backend in a FormData
+    uploadData.append("image", event.target.files[0]);
+
+    try {
+      const response = await service.post("/upload", uploadData);
+      // !IMPORTANT: Adapt the request structure to the one in your proyect (services, .env, auth, etc...)
+
+      setImageUrl(response.data.photoURL);
+      //                          |
+      //     this is how the backend sends the image to the frontend => res.json({ imageUrl: req.file.path });
+
+      setIsUploading(false); // to stop the loading animation
+    } catch (error) {
+      navigate("/error");
+    }
+  };
+  //fin cloudinary
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +58,7 @@ function CreateRecipes() {
       const updatedForm = {
         ...createForm,
         ingredientes: selectedIngredients,
+        photoURL: imageUrl,
       };
       await service.post("/recipes/create", updatedForm);
 
@@ -89,13 +119,23 @@ function CreateRecipes() {
           onChange={handleChange}
           required
         />
-        <input
+        {/*<input
           type="text"
           name="photoURL"
           placeholder="URL de la foto"
           value={createForm.photoURL}
           onChange={handleChange}
         />
+        */}
+        <label>Image: </label>
+        <input
+          type="file"
+          name="image"
+          onChange={handleFileUpload}
+          disabled={isUploading}
+        />
+        {isUploading ? <h3>... uploading image</h3> : null}
+
         <input
           type="text"
           name="clasificacion"
@@ -109,6 +149,11 @@ function CreateRecipes() {
           value={createForm.elaboracion}
           onChange={handleChange}
         />
+        {imageUrl ? (
+          <div>
+            <img src={imageUrl} alt="img" width={200} />
+          </div>
+        ) : null}
         <h2>Ingredientes disponibles</h2>
         <ul
           style={{ maxHeight: "200px", maxWidth: "600px", overflowY: "auto" }}
@@ -137,14 +182,22 @@ function CreateRecipes() {
               <thead>
                 <tr>
                   <th>Ingrediente</th>
+                  <th>Carbohidratos</th>
+                  <th>Establecimiento</th>
                 </tr>
               </thead>
               <tbody>
-                {selectedIngredients.map((ingredient) => (
-                  <tr key={ingredients._id}>
-                    <td>{ingredient}</td>
-                  </tr>
-                ))}
+                {ingredients
+                  .filter((ingrediente) =>
+                    selectedIngredients.includes(ingrediente._id)
+                  )
+                  .map((ingredient) => (
+                    <tr key={ingredients._id}>
+                      <td>{ingredient.nombre}</td>
+                      <td>{ingredient.hidratos} gr</td>
+                      <td>{ingredient.establecimiento}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           )}
