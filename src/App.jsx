@@ -15,12 +15,13 @@ import EditUser from "./pages/EditUser";
 import EditIngredient from "./pages/EditIngredient";
 import CreateIngredients from "./pages/CreateIngredient";
 import RecipeDetails from "./pages/RecipesDetails";
+import OtherRecipesDetails from "./pages/OtherRecipesDetails";
+import ErrorPage from "./pages/ErrorPage";
 //components
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import OnlyPrivate from "./components/OnlyPrivate";
 import OnlyAdmin from "./components/OnlyAdmin";
-import OtherRecipesDetails from "./pages/OtherRecipesDetails";
 
 function App() {
   return (
@@ -120,7 +121,7 @@ function App() {
           }
         />
 
-        {/*Rutas de error aqui */}
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
 
       <Footer />

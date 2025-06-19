@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate, useParams } from "react-router-dom";
 import service from "../services/service.config";
+import { Link } from "react-router-dom";
 
 function EditIngredient() {
   const { role } = useContext(AuthContext);
@@ -98,6 +99,9 @@ function EditIngredient() {
         </button>
         <button onClick={deleteIngrediente}>Eliminar Ingrediente</button>
       </form>
+      <Link to="/ingredients">
+        <button>←Volver atrás</button>
+      </Link>
     </div>
   );
 }

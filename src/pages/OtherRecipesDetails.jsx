@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import service from "../services/service.config";
+import { Link } from "react-router-dom";
 
 function OtherRecipesDetails() {
   const { recipesId } = useParams();
@@ -17,7 +18,7 @@ function OtherRecipesDetails() {
       setRecipe(response.data);
     } catch (error) {
       console.error("Error encontrando recipe details:", error);
-      // Navegar a página de error si falla la petición
+      navigate("/error");
     }
   };
 
@@ -50,12 +51,16 @@ function OtherRecipesDetails() {
             </li>
           ))
         ) : (
-          <li>No hay ingredientes listados</li>
+          <li>No hay ingredientes añadidos</li>
         )}
       </ul>
 
       <h3>Elaboración:</h3>
       <p>{recipe.elaboracion}</p>
+
+      <Link to="/recipes">
+        <button>←Volver atrás</button>
+      </Link>
     </div>
   );
 }

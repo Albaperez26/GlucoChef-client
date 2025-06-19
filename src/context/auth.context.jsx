@@ -1,7 +1,8 @@
 import service from "../services/service.config";
 import { createContext, useEffect, useState } from "react";
-
+import loadingimg from "../images/Animation - 1750322901247.gif";
 const AuthContext = createContext(); //comparte los estados por toda la app
+import fondo from "../images/recetaimg.jpg";
 
 //componente que almacena y controla los estados del contexto
 
@@ -44,7 +45,19 @@ function AuthWrapper(props) {
   };
 
   if (isValidatingToken) {
-    return <h3>... validando usuario</h3>;
+    return (
+      <div
+        style={{
+          backgroundImage: `url(${fondo})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <h1>GlucoChef</h1>
+        <img src={loadingimg} alt="Cargando..." />
+        <h2>Cargando...</h2>
+      </div>
+    );
   }
 
   return (

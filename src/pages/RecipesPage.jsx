@@ -19,6 +19,7 @@ function RecipesPage() {
       setRecipes(response.data);
     } catch (error) {
       console.log("Error en la pagina de todas las recetas", error);
+      navigate("/error");
     }
   };
   const handleRecipe = (e) => {
@@ -30,6 +31,10 @@ function RecipesPage() {
 
       <Link to="/recipes/create">
         <button>Crear nueva receta</button>
+      </Link>
+
+      <Link to="/">
+        <button>←Volver atrás</button>
       </Link>
 
       <div className="buscador-home-page">

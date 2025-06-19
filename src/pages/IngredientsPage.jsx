@@ -18,6 +18,7 @@ function IngredientsPage() {
       console.log(response);
     } catch (error) {
       console.log("Error al ver los ingredientes", error);
+      navigate("/error");
     }
   };
 
@@ -45,6 +46,10 @@ function IngredientsPage() {
           ))}
         </ul>
       </div>
+
+      <Link to="/">
+        <button>←Volver atrás</button>
+      </Link>
     </div>
   );
 }

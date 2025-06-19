@@ -1,6 +1,7 @@
 import service from "../../services/service.config";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import img500 from "../../images/error500.png";
 function Signup() {
   const navigate = useNavigate();
 
@@ -33,6 +34,8 @@ function Signup() {
         //los errores de cliente se muestren al user
         console.log(error.response.data.errorMessage);
         setErrorMessage(error.response.data.errorMessage);
+      } else if (error.response.status === 500) {
+        return <img src={img500} alt="Imagen de error del servidor"></img>;
       }
     }
   };

@@ -17,7 +17,7 @@ function UserPage() {
       setUser(response.data);
     } catch (error) {
       console.log("Error al encontrar el usuario", error);
-      //navigate a una pagina de error al cargar el user
+      navigate("/error");
     }
   };
 
@@ -34,6 +34,11 @@ function UserPage() {
       <p>Email: {user.email}</p>
       <p>Tipo de diabetes: {user.typeofdiabetes}</p>
       <p>Insulina rápida por ración: {user.insulinaxracion}</p>
+
+      <Link to="/">
+        <button>←Volver atrás</button>
+      </Link>
+
       <Link to="/user/edit">
         <button>Editar</button>
       </Link>

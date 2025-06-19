@@ -18,7 +18,7 @@ function RecipeDetails() {
       setRecipe(response.data);
     } catch (error) {
       console.error("Error encontrando recipe details:", error);
-      // Navegar a página de error si falla la petición
+      navigate("/error");
     }
   };
 
@@ -59,6 +59,10 @@ function RecipeDetails() {
       <p>{recipe.elaboracion}</p>
       <Link to={`/recipes/myrecipes/${recipe._id}/edit`}>
         <button>Editar receta</button>
+      </Link>
+
+      <Link to="/recipes/myrecipes">
+        <button>←Volver atrás</button>
       </Link>
     </div>
   );

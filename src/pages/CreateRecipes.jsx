@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import service from "../services/service.config";
+import { Link } from "react-router-dom";
 
 function CreateRecipes() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ function CreateRecipes() {
       navigate("/recipes");
     } catch (error) {
       console.log("Error al crear la receta", error);
-      //añadir navigate con pagina de error
+      navigate("/error");
     }
   };
 
@@ -80,6 +81,7 @@ function CreateRecipes() {
       setIngredients(response.data);
     } catch (error) {
       console.log("Error al acceder a los ingredientes", error);
+      navigate("/error");
     }
   };
 
@@ -127,7 +129,7 @@ function CreateRecipes() {
           onChange={handleChange}
         />
         */}
-        <label>Image: </label>
+        <label>Imagen: </label>
         <input
           type="file"
           name="image"
@@ -213,6 +215,9 @@ function CreateRecipes() {
 
         <button type="submit">Crear receta</button>
       </form>
+      <Link to="/recipes/myrecipes">
+        <button>←Volver atrás</button>
+      </Link>
     </div>
   );
 }

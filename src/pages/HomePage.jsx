@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import RecipesPage from "./RecipesPage";
 function HomePage() {
   return (
     <>

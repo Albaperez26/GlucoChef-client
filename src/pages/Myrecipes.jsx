@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 //pagina donde ver las recetas del usuario en especifico(MIS RECETAS)
 function Myrecipes() {
   const [myRecipes, setMyRecipes] = useState([]);
-  const { recipesId } = useParams();
 
   useEffect(() => {
     const getMyRecipes = async () => {
@@ -14,6 +13,7 @@ function Myrecipes() {
         setMyRecipes(response.data);
       } catch (error) {
         console.log("Error en la pagina de recetas", error);
+        navigate("/error");
       }
     };
     getMyRecipes();
@@ -25,6 +25,11 @@ function Myrecipes() {
       <Link to="/recipes/create">
         <button>Crear nueva receta</button>
       </Link>
+
+      <Link to="/">
+        <button>←Volver atrás</button>
+      </Link>
+
       {myRecipes.map((recipe) => (
         <Link to={`/recipes/myrecipes/${recipe._id}`} key={recipe._id}>
           <div>

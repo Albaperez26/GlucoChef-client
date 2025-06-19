@@ -2,6 +2,7 @@ import service from "../../services/service.config";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import img500 from "../../images/error500.png";
 
 function Login() {
   const { authenticateUser } = useContext(AuthContext);
@@ -41,6 +42,8 @@ function Login() {
       if (error.response.status === 400) {
         //los errores de cliente se muestran al user
         setErrorMessage(error.response.data.errorMessage);
+      } else if (error.response.status === 500) {
+        return <img src={img500} alt="Imagen de error del servidor"></img>;
       }
     }
   };

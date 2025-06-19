@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import service from "../services/service.config";
+import { Link } from "react-router-dom";
 
 function CreateIngredients() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function CreateIngredients() {
       navigate("/ingredients");
     } catch (error) {
       console.log("Error creando el ingrediente", error);
-      //añadir navigate con pagina de error
+      navigate("/error");
     }
   };
 
@@ -58,6 +59,9 @@ function CreateIngredients() {
 
         <button onClick={handleSubmit}>Crear Ingrediente</button>
       </form>
+      <Link to="/ingredients">
+        <button>←Volver atrás</button>
+      </Link>
     </div>
   );
 }
