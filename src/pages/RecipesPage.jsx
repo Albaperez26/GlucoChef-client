@@ -26,42 +26,57 @@ function RecipesPage() {
     setRecipeName(e.target.value);
   };
   return (
-    <div>
-      <h2>Esta es la página de TODAS las recetas</h2>
+    <div className="container my-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="text-center mb-4 text-primary fw-bold">
+          Explora Recetas
+        </h2>
+        <Link to="/recipes/create" className="btn btn-success ms-3">
+          Crear Receta
+        </Link>
+      </div>
 
-      <Link to="/recipes/create">
-        <button>Crear nueva receta</button>
-      </Link>
-
-      <Link to="/">
-        <button>←Volver atrás</button>
-      </Link>
-
-      <div className="buscador-home-page">
+      <div className="mb-4">
         <input
-          className="buscador-style"
           type="text"
-          placeholder="Buscar receta..."
+          className="form-control"
+          placeholder="Buscar receta por nombre..."
+          value={recipeName}
           onChange={handleRecipe}
         />
       </div>
-      {recipes.map((recipe) => (
-        <Link to={`/recipes/${recipe._id}`} key={recipe._id}>
-          <div>
-            <h3>{recipe.titulo}</h3>
-            <img
-              src={recipe.photoURL}
-              alt="img de la receta"
-              style={{
-                maxWidth: "300px",
-                maxHeight: "200px",
-                objectFit: "contain",
-              }}
-            />
-            <p>{recipe.elaboracion}</p>
+
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {recipes.map((recipe) => (
+          <div key={recipe._id} className="col">
+            <Link
+              to={`/recipes/${recipe._id}`}
+              className="text-decoration-none text-dark"
+            >
+              <div className="card h-100 shadow-sm">
+                <img
+                  src={recipe.photoURL}
+                  className="card-img-top"
+                  alt={recipe.titulo}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{recipe.titulo}</h5>
+                  <p className="card-text text-truncate">
+                    {recipe.elaboracion}
+                  </p>
+                </div>
+              </div>
+            </Link>
           </div>
+        ))}
+      </div>
+
+      <div className="text-center mt-5">
+        <Link to="/" className="btn btn-secondary">
+          ← Volver al inicio
         </Link>
-      ))}
+      </div>
     </div>
   );
 }

@@ -12,70 +12,108 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [serverError, setServerError] = useState(false);
+
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // ... contactar al backend para validar credenciales de usuario aqui
-    const userCredentials = {
-      email,
-      password,
-    };
+    setErrorMessage(null);
+    setServerError(false);
+
+    const userCredentials = { email, password };
 
     try {
       const response = await service.post(`/auth/login`, userCredentials);
       console.log("usuario validado por el back", response);
 
-      //almacenamos el token
       localStorage.setItem("authToken", response.data.authToken);
 
-      //crear contexto y act los estados
       await authenticateUser();
 
-      //redireccionar al user admin a pag privada
       navigate("/");
     } catch (error) {
       console.log(error);
 
-      if (error.response.status === 400) {
-        //los errores de cliente se muestran al user
+      if (error.response?.status === 400) {
         setErrorMessage(error.response.data.errorMessage);
-      } else if (error.response.status === 500) {
-        return <img src={img500} alt="Imagen de error del servidor"></img>;
+      } else if (error.response?.status === 500) {
+        setServerError(true);
+      } else {
+        setErrorMessage("Error desconocido, inténtalo más tarde.");
       }
     }
   };
 
+  if (serverError) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <img
+          src={img500}
+          alt="Error del servidor"
+          style={{ maxWidth: "300px" }}
+        />
+        <p className="mt-3 text-danger fw-bold">
+          Ha ocurrido un error en el servidor. Por favor, inténtalo más tarde.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h1>Formulario de Acceso</h1>
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div
+        className="card shadow p-4"
+        style={{ maxWidth: "400px", width: "100%" }}
+      >
+        <h1 className="text-center mb-4">Acceso a la cuenta</h1>
 
-      <form onSubmit={handleLogin}>
-        <label>Correo Electronico:</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleEmailChange}
-        />
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Correo Electrónico
+            </label>
+            <input
+              id="email"
+              type="email"
+              className="form-control"
+              name="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="ejemplo@correo.com"
+              required
+            />
+          </div>
 
-        <br />
+          <div className="mb-4">
+            <label htmlFor="password" className="form-label">
+              Contraseña
+            </label>
+            <input
+              id="password"
+              type="password"
+              className="form-control"
+              name="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="********"
+              required
+            />
+          </div>
 
-        <label>Contraseña:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
+          {errorMessage && (
+            <div className="alert alert-danger text-center" role="alert">
+              {errorMessage}
+            </div>
+          )}
 
-        <br />
-
-        <button type="submit">Acceder</button>
-        {errorMessage && <p>{errorMessage}</p>}
-      </form>
+          <button type="submit" className="btn btn-primary w-100">
+            Acceder
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

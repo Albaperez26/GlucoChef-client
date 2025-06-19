@@ -94,130 +94,203 @@ function CreateRecipes() {
   };
 
   return (
-    <div>
-      <h2>¡Crea tu receta!</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="titulo"
-          placeholder="Título"
-          value={createForm.titulo}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="totalHC"
-          placeholder="Total HC"
-          value={createForm.totalHC}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="raciones"
-          placeholder="Raciones"
-          value={createForm.raciones}
-          onChange={handleChange}
-          required
-        />
-        {/*<input
-          type="text"
-          name="photoURL"
-          placeholder="URL de la foto"
-          value={createForm.photoURL}
-          onChange={handleChange}
-        />
-        */}
-        <label>Imagen: </label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleFileUpload}
-          disabled={isUploading}
-        />
-        {isUploading ? <h3>... uploading image</h3> : null}
+    <div className="container my-4" style={{ maxWidth: "700px" }}>
+      <h2 className="text-primary fw-bold">¡Crea tu receta!</h2>
 
-        <input
-          type="text"
-          name="clasificacion"
-          placeholder="Clasificación"
-          value={createForm.clasificacion}
-          onChange={handleChange}
-        />
-        <textarea
-          name="elaboracion"
-          placeholder="Elaboración"
-          value={createForm.elaboracion}
-          onChange={handleChange}
-        />
-        {imageUrl ? (
-          <div>
-            <img src={imageUrl} alt="img" width={200} />
-          </div>
-        ) : null}
-        <h2>Ingredientes disponibles</h2>
-        <ul
-          style={{ maxHeight: "200px", maxWidth: "600px", overflowY: "auto" }}
-        >
-          {ingredients.map((ingredient) => (
-            <li key={ingredient._id}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={selectedIngredients.includes(ingredient._id)}
-                  onChange={() => toggleIngredient(ingredient._id)}
-                />
-                {ingredient.nombre}
-              </label>
-            </li>
-          ))}
-        </ul>
-
-        {/* Tabla de seleccionados */}
+      <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
         <div>
-          <h2>Ingredientes de la receta</h2>
-          {selectedIngredients.length === 0 ? (
-            <p>Selecciona ingredientes de la lista.</p>
-          ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Ingrediente</th>
-                  <th>Carbohidratos</th>
-                  <th>Establecimiento</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ingredients
-                  .filter((ingrediente) =>
-                    selectedIngredients.includes(ingrediente._id)
-                  )
-                  .map((ingredient) => (
-                    <tr key={ingredients._id}>
-                      <td>{ingredient.nombre}</td>
-                      <td>{ingredient.hidratos} gr</td>
-                      <td>{ingredient.establecimiento}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+          <label htmlFor="titulo" className="form-label">
+            Título de la receta <span className="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="titulo"
+            name="titulo"
+            placeholder="Ejemplo: Tarta de Manzana"
+            value={createForm.titulo}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="totalHC" className="form-label">
+            Hidratos de Carbono Totales <span className="text-danger">*</span>
+          </label>
+          <input
+            type="number"
+            id="totalHC"
+            name="totalHC"
+            placeholder="Ejemplo: 45"
+            value={createForm.totalHC}
+            onChange={handleChange}
+            className="form-control"
+            min="0"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="raciones" className="form-label">
+            Número de Raciones <span className="text-danger">*</span>
+          </label>
+          <input
+            type="number"
+            id="raciones"
+            name="raciones"
+            placeholder="Ejemplo: 4"
+            value={createForm.raciones}
+            onChange={handleChange}
+            className="form-control"
+            min="1"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="image" className="form-label">
+            Imagen de la receta
+          </label>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            onChange={handleFileUpload}
+            disabled={isUploading}
+            className="form-control"
+            accept="image/*"
+          />
+          {isUploading && (
+            <p className="text-muted mt-2">... Subiendo imagen</p>
+          )}
+          {imageUrl && (
+            <div className="text-center my-3">
+              <img
+                src={imageUrl}
+                alt="Imagen de la receta"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "250px",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
           )}
         </div>
 
-        {/* <input
-          type="text"
-          name="ingredientes"
-          placeholder="Ingredientes"
-          value={createForm.ingredientes}
-          onChange={handleChange}
-        /> */}
+        <div>
+          <label htmlFor="clasificacion" className="form-label">
+            Clasificación
+          </label>
+          <input
+            type="text"
+            id="clasificacion"
+            name="clasificacion"
+            placeholder="Ejemplo: Postre"
+            value={createForm.clasificacion}
+            onChange={handleChange}
+            className="form-control"
+          />
+        </div>
 
-        <button type="submit">Crear receta</button>
+        <div>
+          <label htmlFor="elaboracion" className="form-label">
+            Elaboración <span className="text-danger">*</span>
+          </label>
+          <textarea
+            id="elaboracion"
+            name="elaboracion"
+            placeholder="Describe cómo preparar la receta..."
+            value={createForm.elaboracion}
+            onChange={handleChange}
+            rows="5"
+            className="form-control"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="form-label fw-semibold">
+            Ingredientes disponibles
+          </label>
+          <ul
+            style={{
+              maxHeight: "180px",
+              overflowY: "auto",
+              listStyle: "none",
+              paddingLeft: 0,
+              border: "1px solid #ddd",
+              borderRadius: "5px",
+              marginBottom: "1rem",
+            }}
+          >
+            {ingredients.map((ingredient) => (
+              <li
+                key={ingredient._id}
+                className="px-3 py-1 border-bottom d-flex align-items-center"
+              >
+                <input
+                  type="checkbox"
+                  id={`ingredient-${ingredient._id}`}
+                  checked={selectedIngredients.includes(ingredient._id)}
+                  onChange={() => toggleIngredient(ingredient._id)}
+                  className="form-check-input me-2"
+                />
+                <label
+                  htmlFor={`ingredient-${ingredient._id}`}
+                  className="mb-0"
+                >
+                  {ingredient.nombre}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <label className="form-label fw-semibold">
+            Ingredientes de la receta
+          </label>
+          {selectedIngredients.length === 0 ? (
+            <p>Selecciona ingredientes de la lista.</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Ingrediente</th>
+                    <th>Carbohidratos (gr)</th>
+                    <th>Establecimiento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ingredients
+                    .filter((ingrediente) =>
+                      selectedIngredients.includes(ingrediente._id)
+                    )
+                    .map((ingredient) => (
+                      <tr key={ingredient._id}>
+                        <td>{ingredient.nombre}</td>
+                        <td>{ingredient.hidratos} gr</td>
+                        <td>{ingredient.establecimiento}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <button type="submit" className="btn btn-primary">
+            Crear receta
+          </button>
+          <Link to="/recipes/myrecipes" className="btn btn-secondary">
+            ← Volver atrás
+          </Link>
+        </div>
       </form>
-      <Link to="/recipes/myrecipes">
-        <button>←Volver atrás</button>
-      </Link>
     </div>
   );
 }

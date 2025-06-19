@@ -30,7 +30,7 @@ function UserPage() {
   return (
     <div className="container my-5">
       <div className="text-center mb-4">
-        <h2 className="ffw-bold text-primary">Perfil de {user.username}</h2>
+        <h1 className="ffw-bold text-primary">Perfil de {user.username}</h1>
       </div>
       <div className="row justify-content-center align-items-center">
         <div className="col-12 col-md-4 text-center mb-4">
@@ -49,7 +49,7 @@ function UserPage() {
           >
             <img
               src={user.photoURL || imguser}
-              alt={`Imagen de perfil de: ${user.username}`}
+              alt=""
               style={{
                 width: "100%",
                 height: "100%",

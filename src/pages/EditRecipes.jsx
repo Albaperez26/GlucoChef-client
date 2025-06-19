@@ -13,7 +13,7 @@ function EditRecipes() {
 
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-  const [editFrom, setEditForm] = useState({
+  const [editForm, setEditForm] = useState({
     titulo: "",
     totalHC: "",
     raciones: "",
@@ -96,7 +96,7 @@ function EditRecipes() {
     e.preventDefault();
     try {
       await service.put(`/recipes/myrecipes/${recipesId}/edit`, {
-        ...editFrom,
+        ...editForm,
         ingredientes: selectedIngredients,
         photoURL: imageUrl,
       });
@@ -109,94 +109,192 @@ function EditRecipes() {
 
   //funcion de borrar receta
   const deleteRecipe = async () => {
-    try {
-      await service.delete(`recipes/myrecipes/${recipesId}`);
-      navigate("/recipes/myrecipes");
-    } catch (error) {
-      console.log("Error al eliminar la receta", error);
-      navigate("/error");
+    if (window.confirm("¿Estás seguro que deseas borrar la receta?")) {
+      try {
+        await service.delete(`recipes/myrecipes/${recipesId}`);
+        navigate("/recipes/myrecipes");
+      } catch (error) {
+        console.log("Error al eliminar la receta", error);
+        navigate("/error");
+      }
     }
   };
 
   return (
-    <div>
-      <h2>EDITAR RECETA</h2>
+    <div className="container my-4" style={{ maxWidth: "700px" }}>
+      <h2 className="text-primary fw-bold">Editar Receta</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="titulo"
-          value={editFrom.titulo}
-          onChange={handleChange}
-          placeholder="Titulo"
-        />
-        <input
-          type="number"
-          name="totalHC"
-          value={editFrom.totalHC}
-          onChange={handleChange}
-          placeholder="HC Totales"
-        />
-        <input
-          type="number"
-          name="raciones"
-          value={editFrom.raciones}
-          onChange={handleChange}
-          placeholder="Raciones"
-        />
-        <label>Imagen: </label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleFileUpload}
-          disabled={isUploading}
-        />
-        {isUploading ? <h3>... uploading image</h3> : null}
-        <input
-          type="text"
-          name="clasificacion"
-          value={editFrom.clasificacion}
-          onChange={handleChange}
-          placeholder="Clasificación"
-        />
-        <textarea
-          name="elaboracion"
-          value={editFrom.elaboracion}
-          onChange={handleChange}
-          placeholder="Elaboración"
-        />
-        {imageUrl ? (
-          <div>
-            <img src={imageUrl} alt="img" width={200} />
-          </div>
-        ) : null}
-        <h2>Ingredientes disponibles</h2>
-        <ul
-          style={{ maxHeight: "200px", maxWidth: "600px", overflowY: "auto" }}
-        ></ul>
-        <h2>Ingredientes:</h2>
-        <ul
-          style={{ maxHeight: "200px", maxWidth: "600px", overflowY: "auto" }}
-        >
-          {ingredients.map((ingredient) => (
-            <li key={ingredient._id}>
-              <label>
+      <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+        <div>
+          <label htmlFor="titulo" className="form-label">
+            Título de la receta <span className="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="titulo"
+            name="titulo"
+            value={editForm.titulo}
+            onChange={handleChange}
+            placeholder="Ejemplo: Tarta de Manzana"
+            className="form-control"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="totalHC" className="form-label">
+            Hidratos de Carbono Totales <span className="text-danger">*</span>
+          </label>
+          <input
+            type="number"
+            id="totalHC"
+            name="totalHC"
+            value={editForm.totalHC}
+            onChange={handleChange}
+            placeholder="Ejemplo: 45"
+            className="form-control"
+            min="0"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="raciones" className="form-label">
+            Número de Raciones <span className="text-danger">*</span>
+          </label>
+          <input
+            type="number"
+            id="raciones"
+            name="raciones"
+            value={editForm.raciones}
+            onChange={handleChange}
+            placeholder="Ejemplo: 4"
+            className="form-control"
+            min="1"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="image" className="form-label">
+            Imagen de la receta
+          </label>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            onChange={handleFileUpload}
+            disabled={isUploading}
+            className="form-control"
+            accept="image/*"
+          />
+          {isUploading && (
+            <p className="text-muted mt-2">... Subiendo imagen</p>
+          )}
+
+          {imageUrl && (
+            <div className="text-center my-3">
+              <img
+                src={imageUrl}
+                alt="Imagen de la receta"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "250px",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="clasificacion" className="form-label">
+            Clasificación
+          </label>
+          <input
+            type="text"
+            id="clasificacion"
+            name="clasificacion"
+            value={editForm.clasificacion}
+            onChange={handleChange}
+            placeholder="Ejemplo: Postre"
+            className="form-control"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="elaboracion" className="form-label">
+            Elaboración <span className="text-danger">*</span>
+          </label>
+          <textarea
+            id="elaboracion"
+            name="elaboracion"
+            value={editForm.elaboracion}
+            onChange={handleChange}
+            placeholder="Describe cómo preparar la receta..."
+            rows="5"
+            className="form-control"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="form-label fw-semibold">
+            Selecciona los ingredientes
+          </label>
+          <ul
+            style={{
+              maxHeight: "180px",
+              overflowY: "auto",
+              listStyle: "none",
+              paddingLeft: 0,
+              border: "1px solid #ddd",
+              borderRadius: "5px",
+              marginBottom: "1rem",
+            }}
+          >
+            {ingredients.map((ingredient) => (
+              <li
+                key={ingredient._id}
+                className="px-3 py-1 border-bottom d-flex align-items-center"
+              >
                 <input
                   type="checkbox"
+                  id={`ingredient-${ingredient._id}`}
                   checked={selectedIngredients.includes(ingredient._id)}
                   onChange={() => toggleIngredient(ingredient._id)}
+                  className="form-check-input me-2"
                 />
-                {ingredient.nombre}
-              </label>
-            </li>
-          ))}
-        </ul>
-        <button type="submit">Guardar cambios</button>
-        <button onClick={deleteRecipe}>Eliminar receta</button>
+                <label
+                  htmlFor={`ingredient-${ingredient._id}`}
+                  className="mb-0"
+                >
+                  {ingredient.nombre}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <button
+            type="button"
+            onClick={deleteRecipe}
+            className="btn btn-danger"
+          >
+            Eliminar receta
+          </button>
+          <button type="submit" className="btn btn-primary">
+            Guardar cambios
+          </button>
+        </div>
       </form>
-      <Link to="/recipes/myrecipes">
-        <button>←Volver atrás</button>
-      </Link>
+
+      <div className="text-center mt-4">
+        <Link to="/recipes/myrecipes" className="btn btn-secondary">
+          ← Volver atrás
+        </Link>
+      </div>
     </div>
   );
 }

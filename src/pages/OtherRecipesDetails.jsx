@@ -23,44 +23,73 @@ function OtherRecipesDetails() {
   };
 
   if (!recipe) {
-    return <h3>Cargando detalles de la receta...</h3>;
+    return (
+      <div className="container text-center my-5">
+        <h4 className="text-muted">Cargando detalles de la receta...</h4>
+      </div>
+    );
   }
 
   console.log(recipe);
 
   return (
-    <div className="recipe-details">
-      <h1>{recipe.titulo}</h1>
-      <img src={recipe.photoURL} alt={recipe.titulo} className="recipe-image" />
-      <p>
-        <strong>Clasificación:</strong> {recipe.clasificacion}
-      </p>
-      <p>
-        <strong>Total HC:</strong> {recipe.totalHC}
-      </p>
-      <p>
-        <strong>Raciones:</strong> {recipe.raciones}
-      </p>
+    <div className="container my-5" style={{ maxWidth: "850px" }}>
+      <div className="card shadow-lg p-4">
+        <h1 className="text-center mb-4 text-primary">{recipe.titulo}</h1>
 
-      <h3>Ingredientes:</h3>
-      <ul>
-        {recipe.ingredientes && recipe.ingredientes.length > 0 ? (
-          recipe.ingredientes.map((ingrediente) => (
-            <li key={ingrediente._id}>
-              {ingrediente.nombre || "Nombre no disponible"}
-            </li>
-          ))
-        ) : (
-          <li>No hay ingredientes añadidos</li>
+        {recipe.photoURL && (
+          <div className="text-center mb-4">
+            <img
+              src={recipe.photoURL}
+              alt=""
+              className="img-fluid rounded shadow"
+              style={{
+                maxHeight: "350px",
+                objectFit: "cover",
+                border: "4px solid #dee2e6",
+              }}
+            />
+          </div>
         )}
-      </ul>
 
-      <h3>Elaboración:</h3>
-      <p>{recipe.elaboracion}</p>
+        <div className="mb-3">
+          <h2>
+            <strong>📂 Clasificación:</strong> {recipe.clasificacion}
+          </h2>
+          <h2>
+            <strong>🍞 Hidratos totales:</strong> {recipe.totalHC}
+          </h2>
+          <h2>
+            <strong>🍽️ Raciones:</strong> {recipe.raciones}
+          </h2>
+        </div>
 
-      <Link to="/recipes">
-        <button>←Volver atrás</button>
-      </Link>
+        <div className="mb-4">
+          <h2 className="text-secondary">🧂 Ingredientes:</h2>
+          {recipe.ingredientes?.length > 0 ? (
+            <ul className="list-group list-group-flush">
+              {recipe.ingredientes.map((ingrediente) => (
+                <li key={ingrediente._id} className="list-group-item">
+                  {ingrediente.nombre || "Nombre no disponible"}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-muted">No hay ingredientes añadidos.</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <h2 className="text-secondary">📝 Elaboración:</h2>
+          <p style={{ whiteSpace: "pre-line" }}>{recipe.elaboracion}</p>
+        </div>
+
+        <div className="text-center">
+          <Link to="/recipes" className="btn btn-outline-primary">
+            ← Volver atrás
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

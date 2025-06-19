@@ -36,7 +36,7 @@ function HomePage() {
     <div className="container py-5">
       <img
         src={logo}
-        alt="Logo, imagen gorro de cocina"
+        alt=""
         className="img-fluid mb-3"
         style={{ maxWidth: "120px" }}
       />
@@ -54,38 +54,38 @@ function HomePage() {
         <div className="col-12 col-md-4">
           <img
             src={img1}
-            alt="Icono contador de Carbohidratos"
+            alt=""
             className="img-fluid mb-3"
             style={{ maxHeight: "100px", objectFit: "contain" }}
           />
-          <h3 className="fw-bold">Recetas adaptadas</h3>
+          <h2 className="fw-bold">Recetas adaptadas</h2>
           <p>Platos con hidratos controlados y clasificados</p>
         </div>
         <div className="col-12 col-md-4">
           <img
             src={img2}
-            alt="Icono recetas"
+            alt=""
             className="img-fluid mb-3"
             style={{ maxHeight: "100px", objectFit: "contain" }}
           />
-          <h3 className="fw-bold">Tu recetario personal</h3>
+          <h2 className="fw-bold">Tu recetario personal</h2>
           <p>Crea y comparte tus propias recetas</p>
         </div>
         <div className="col-12 col-md-4">
           <img
             src={img3}
-            alt="Icono recetas personalizadas"
+            alt=""
             className="img-fluid mb-3"
             style={{ maxHeight: "100px", objectFit: "contain" }}
           />
-          <h3 className="fw-bold">Personaliza</h3>
+          <h2 className="fw-bold">Personaliza</h2>
           <p>Edita o elimina tus recetas siempre que quieras</p>
         </div>
       </div>
 
       <div className="mb-5">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="fw-bold">Mis recetas</h3>
+          <h2 className="fw-bold">Mis recetas</h2>
           <Link to="/recipes/myrecipes" className="btn btn-outline-primary">
             Ver todas
           </Link>
@@ -109,7 +109,7 @@ function HomePage() {
                   >
                     <img
                       src={recipe.photoURL}
-                      alt={recipe.titulo}
+                      alt=""
                       className="img-fluid"
                       style={{
                         objectFit: "contain",
@@ -132,7 +132,7 @@ function HomePage() {
       {/* OTRAS RECETAS */}
       <div className="mb-5">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="fw-bold">Otras recetas</h3>
+          <h2 className="fw-bold">Otras recetas</h2>
           <Link to="/recipes" className="btn btn-outline-primary">
             Ver todas
           </Link>
@@ -156,7 +156,7 @@ function HomePage() {
                   >
                     <img
                       src={recipe.photoURL}
-                      alt={recipe.titulo}
+                      alt=""
                       className="img-fluid"
                       style={{
                         objectFit: "contain",
