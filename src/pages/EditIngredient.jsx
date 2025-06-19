@@ -49,6 +49,10 @@ function EditIngredient() {
   //console.log(editForm);
 
   const deleteIngrediente = async () => {
+    const confirmDelete = window.confirm(
+      "¿Estás seguro que deseas borrar el ingrediente?"
+    );
+    if (!confirmDelete) return;
     try {
       await service.delete(`/ingredients/${ingredientsId}`);
       navigate("/ingredients");
@@ -56,52 +60,73 @@ function EditIngredient() {
       console.log("Error al eliminar el ingrediente", error);
       //poner navigate a la pag de error
     }
+    if (role !== "admin") {
+      return (
+        <p className="text-danger text-center mt-5">
+          Acceso denegado. Esta página es solo para administradores.
+        </p>
+      );
+    }
   };
   return (
-    <div>
-      <h3>Editar Ingrediente</h3>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Nombre:
+    <div className="container my-5">
+      <h2 className="text-primary fw-bold mb-4">Editar Ingrediente</h2>
+
+      <form onSubmit={handleSubmit} className="card shadow-sm p-4">
+        <div className="mb-3">
+          <label className="form-label">Nombre</label>
           <input
             type="text"
+            className="form-control"
             name="nombre"
             value={editForm.nombre || ""}
             onChange={handleChange}
             required
           />
-        </label>
+        </div>
 
-        <label>
-          Establecimiento:
+        <div className="mb-3">
+          <label className="form-label">Establecimiento</label>
           <input
             type="text"
+            className="form-control"
             name="establecimiento"
             value={editForm.establecimiento || ""}
             onChange={handleChange}
             required
           />
-        </label>
+        </div>
 
-        <label>
-          Hidratos:
+        <div className="mb-4">
+          <label className="form-label">Hidratos</label>
           <input
             type="number"
+            className="form-control"
             name="hidratos"
             value={editForm.hidratos || ""}
             onChange={handleChange}
             required
           />
-        </label>
+        </div>
 
-        <button type="button" onClick={handleSubmit}>
-          Guardar cambios
-        </button>
-        <button onClick={deleteIngrediente}>Eliminar Ingrediente</button>
+        <div className="d-flex flex-wrap justify-content-between gap-2">
+          <button type="submit" className="btn btn-primary">
+            Guardar cambios
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={deleteIngrediente}
+          >
+            Eliminar ingrediente
+          </button>
+
+          <Link to="/ingredients" className="btn btn-secondary">
+            ← Volver atrás
+          </Link>
+        </div>
       </form>
-      <Link to="/ingredients">
-        <button>←Volver atrás</button>
-      </Link>
     </div>
   );
 }

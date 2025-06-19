@@ -30,38 +30,59 @@ function CreateIngredients() {
   };
 
   return (
-    <div>
-      <h2>Crear Ingrediente</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Nombre"
-          value={createForm.nombre}
-          onChange={handleChange}
-        />
+    <div className="container my-5">
+      <h2 className="text-primary fw-bold mb-4">Crear Ingrediente</h2>
 
-        <input
-          type="text"
-          name="establecimiento"
-          placeholder="Establecimiento"
-          value={createForm.establecimiento}
-          onChange={handleChange}
-        />
+      <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
+        <div className="mb-3">
+          <label className="form-label">Nombre</label>
+          <input
+            type="text"
+            name="nombre"
+            className="form-control"
+            placeholder="Ej: Pan integral"
+            value={createForm.nombre}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          name="hidratos"
-          placeholder="Hidratos"
-          value={createForm.hidratos}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Establecimiento</label>
+          <input
+            type="text"
+            name="establecimiento"
+            className="form-control"
+            placeholder="Ej: Mercadona"
+            value={createForm.establecimiento}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <button onClick={handleSubmit}>Crear Ingrediente</button>
+        <div className="mb-4">
+          <label className="form-label">Hidratos</label>
+          <input
+            type="number"
+            name="hidratos"
+            className="form-control"
+            placeholder="Ej: 45"
+            value={createForm.hidratos}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="d-flex justify-content-center gap-3 flex-wrap">
+          <button type="submit" className="btn btn-success">
+            Crear Ingrediente
+          </button>
+
+          <Link to="/ingredients" className="btn btn-secondary">
+            ← Volver atrás
+          </Link>
+        </div>
       </form>
-      <Link to="/ingredients">
-        <button>←Volver atrás</button>
-      </Link>
     </div>
   );
 }

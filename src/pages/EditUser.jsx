@@ -91,54 +91,94 @@ function EditUser() {
   };
 
   return (
-    <div>
-      <h3>Pagina de editar usuario</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="username"
-          value={editForm.username}
-          onChange={handleChange}
-          placeholder="Nombre de usuario"
-        />
-        {/*<input
-          name="photoURL"
-          value={editForm.photoURL}
-          onChange={handleChange}
-          placeholder="URL de foto"
-        />*/}
-        <label>Imagen: </label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleFileUpload}
-          disabled={isUploading}
-        />
-        {isUploading ? <h3>... uploading image</h3> : null}
-        <input
-          name="typeofdiabetes"
-          value={editForm.typeofdiabetes}
-          onChange={handleChange}
-          placeholder="Tipo de diabetes"
-        />
-        <input
-          name="insulinaxracion"
-          value={editForm.insulinaxracion}
-          onChange={handleChange}
-          placeholder="Insulina por ración"
-        />
-        {imageUrl ? (
-          <div>
-            <img src={imageUrl} alt="img" width={200} />
+    <div className="container my-5">
+      <h2 className="text-center mb-4 fw-bold text-primary">Editar Perfil</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto"
+        style={{ maxWidth: "500px" }}
+      >
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label fw-semibold">
+            Nombre de usuario
+          </label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            className="form-control text-center"
+            value={editForm.username}
+            onChange={handleChange}
+            placeholder="Nombre de usuario"
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label fw-semibold">
+            Imagen de perfil
+          </label>
+          <input
+            id="image"
+            type="file"
+            name="image"
+            className="form-control text-center"
+            onChange={handleFileUpload}
+            disabled={isUploading}
+          />
+          {isUploading && (
+            <div className="form-text text-primary">Subiendo imagen...</div>
+          )}
+        </div>
+
+        {imageUrl && (
+          <div className="text-center mb-3">
+            <img
+              src={imageUrl}
+              alt="Previsualización"
+              className="img-fluid rounded shadow"
+              style={{ maxWidth: "200px", height: "auto" }}
+            />
           </div>
-        ) : null}
+        )}
 
-        <Link to="/user">
-          <button>←Volver atrás</button>
-        </Link>
+        <div className="mb-3">
+          <label htmlFor="typeofdiabetes" className="form-label fw-semibold">
+            Tipo de diabetes
+          </label>
+          <input
+            id="typeofdiabetes"
+            name="typeofdiabetes"
+            type="text"
+            className="form-control text-center"
+            value={editForm.typeofdiabetes}
+            onChange={handleChange}
+            placeholder="Tipo de diabetes"
+          />
+        </div>
 
-        <button type="button" onClick={handleSubmit}>
-          Guardar cambios
-        </button>
+        <div className="mb-4">
+          <label htmlFor="insulinaxracion" className="form-label fw-semibold">
+            Insulina por ración
+          </label>
+          <input
+            id="insulinaxracion"
+            name="insulinaxracion"
+            type="text"
+            className="form-control text-center"
+            value={editForm.insulinaxracion}
+            onChange={handleChange}
+            placeholder="Insulina por ración"
+          />
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <Link to="/user" className="btn btn-outline-secondary">
+            ← Volver
+          </Link>
+          <button type="submit" className="btn btn-primary">
+            Guardar cambios
+          </button>
+        </div>
       </form>
     </div>
   );
