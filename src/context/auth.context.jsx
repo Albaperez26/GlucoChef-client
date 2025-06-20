@@ -59,6 +59,7 @@ function AuthWrapper(props) {
       </div>
     );
   }
+  console.log("Cargando pagina");
 
   return (
     <AuthContext.Provider value={passedContext}>
