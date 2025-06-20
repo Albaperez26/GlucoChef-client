@@ -20,62 +20,35 @@ function Myrecipes() {
   }, []);
 
   return (
-    <div className="container my-5">
-      <h1 className="text-primary fw-bold mb-4 text-center">Mis Recetas</h1>
-
-      <div className="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-        <Link to="/recipes/create" className="btn btn-success">
-          Crear nueva receta
-        </Link>
-
-        <Link to="/" className="btn btn-secondary">
-          ← Volver atrás
+    <div className="container my-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="text-center mb-4 text-primary fw-bold">Mis Recetas</h2>
+        <Link to="/recipes/create" className="btn btn-success ms-3">
+          Crear Receta
         </Link>
       </div>
 
       {myRecipes.length === 0 ? (
         <p className="text-center text-muted">No tienes recetas aún.</p>
       ) : (
-        <div className="row g-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {myRecipes.map((recipe) => (
-            <div className="col-12 col-md-6" key={recipe._id}>
+            <div key={recipe._id} className="col">
               <Link
                 to={`/recipes/myrecipes/${recipe._id}`}
                 className="text-decoration-none text-dark"
               >
-                <div
-                  className="card flex-row shadow-sm bg-light rounded overflow-hidden h-100 hover-shadow"
-                  style={{ minHeight: "220px" }} // altura mínima fija
-                >
-                  <div
-                    style={{
-                      minWidth: "180px",
-                      maxWidth: "220px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <img
-                      src={recipe.photoURL}
-                      alt=""
-                      className="img-fluid h-100"
-                      style={{
-                        objectFit: "contain",
-                        height: "180px",
-                        width: "100%",
-                      }}
-                    />
-                  </div>
-                  <div className="card-body d-flex flex-column justify-content-center">
-                    <h2 className="card-title text-truncate">
-                      {recipe.titulo}
-                    </h2>
+                <div className="card h-100 shadow-sm">
+                  <img
+                    src={recipe.photoURL}
+                    className="card-img-top"
+                    alt={recipe.titulo}
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{recipe.titulo}</h5>
                     <p
-                      className="card-text"
-                      style={{
-                        maxHeight: "4.5em",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
+                      className="card-text text-truncate"
                       title={recipe.elaboracion}
                     >
                       {recipe.elaboracion}
@@ -87,6 +60,12 @@ function Myrecipes() {
           ))}
         </div>
       )}
+
+      <div className="text-center mt-5">
+        <Link to="/" className="btn btn-secondary">
+          ← Volver al inicio
+        </Link>
+      </div>
     </div>
   );
 }
